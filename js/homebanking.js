@@ -1,9 +1,8 @@
 
-
-
 //Declaración de variables
+let codigoSeguridad = 6699 
 
-let nombreUsuario = "Dr. Fate!" ;
+let nombreUsuario = "Dr. Frog!" ;
 let saldoCuenta = 2500 ;
 let limiteExtraccion = 1000 ;
 
@@ -15,21 +14,18 @@ let servicioInternet = 570
 let cuentaAmiga1 = 1234567
 let cuentaAmiga2 = 7654321
 
-let codigoSeguridad = 6699 
-
 iniciarSesion()
 
-function sumarDinero (dinero) {
-   let sumar = ( saldoCuenta + dinero)
-   return sumar;
-}
+    function sumarDinero (dinero) {
+    let sumar = ( saldoCuenta + dinero)
+    return sumar;
+    }
 
-
-function restarDinero (dinero) {
-    let restar = ( saldoCuenta - dinero)
-    return restar;
- 
- }
+    function restarDinero (dinero) {
+        let restar = ( saldoCuenta - dinero)
+        return restar;
+    
+    }
 
 //Ejecución de las funciones que actualizan los valores de las variables en el HTML.
 window.onload = function() {
@@ -41,150 +37,236 @@ window.onload = function() {
 
 //Funciones que tenes que completar
 function cambiarLimiteDeExtraccion() {
-    let dinero = prompt ('¿Ingrese el nuevo limite de extraccion?', 1000)
-    if (dinero !== null) {  
-    limiteExtraccion = parseInt (dinero)
+
+    (async () =>{	
+        let  { value: dinero } = await Swal.fire({
+            input: 'text',
+            inputLabel: 'Solo admite numeros',
+            icon:'question',
+            title: 'Ingrese el nuevo limite de extraccion',
+            inputPlaceholder: 'Ingrese un monto',
+            showCancelButton: true,
+          });
+
+    if (dinero !== NaN && dinero !== undefined && dinero !== "") {  
+    limiteExtraccion = parseInt(dinero);
     actualizarLimiteEnPantalla() 
-    alert (`Tu nuevo limite es de ${limiteExtraccion}`)
-    } else { alert ("Operacion cancelada. Se esperaba que ingrese un valor")}
+    Swal.fire ({icon:'success', text:`Operacion exitosa.\n El nuevo limite es de ${limiteExtraccion}`})
+    } else { Swal.fire ({ icon:'error', text:"Operacion cancelada. Se esperaba que ingrese un valor"})}
+
+})();
 }
 
 function extraerDinero() {
-    let dineroExtraido = prompt ('¿Cuántos dinero desea extraer?', 1000);
-    if (dineroExtraido !== null) { 
+    (async () =>{	
+            let  { value: dineroExtraido } = await Swal.fire({
+                input: 'text',
+                inputLabel: 'Solo admite números',
+                icon: 'question',
+                title: '¿Cuánto dinero desea extraer?',
+                inputPlaceholder: 'Ingrese un monto',
+                showCancelButton: true,
+              });
+
+    if (dineroExtraido !== NaN && dineroExtraido !== undefined && dineroExtraido !== "") { 
         if (dineroExtraido <= saldoCuenta){
         if ( dineroExtraido > limiteExtraccion){
-            alert('EL dinero que desea extraer supera el limite de extraccion')
+            Swal.fire({icon: 'error', text:'EL dinero que desea extraer supera el limite de extraccion'})
         } 
             if (dineroExtraido % 100 / 100 !== 0) {
-                alert('Este cajero solo entrega billetes de 100')
+                Swal.fire({icon: 'error', text:'Este cajero solo entrega billetes de $100'})
             } else {
                 let ahoraTenes = (saldoCuenta - parseInt(dineroExtraido))
                 
-                alert(`Elegiste extraer ${dineroExtraido} 
-                Antes tenias ${saldoCuenta}!
-                Ahora tenes ${ahoraTenes}`);
+                Swal.fire({icon: 'success', text: `Elegiste extraer $ ${dineroExtraido}\n 
+                Antes tenias $ ${saldoCuenta}\n
+                Ahora tenes $ ${ahoraTenes} !`});
 
                 saldoCuenta = ahoraTenes ;
-                actualizarSaldoEnPantalla(ahoraTenes);
+                actualizarSaldoEnPantalla(saldoCuenta);
             }
         } else {
-            alert('EL saldo disponible no es suficiente para realizar esta operacion')
+            Swal.fire({icon: 'error', text:'EL saldo disponible no es suficiente para realizar la operacion'})
         }
-    }else  {alert ("Operacion cancelada. Se esperaba que ingrese un valor")}
+    } else  {Swal.fire ({icon: 'error', text:"Operacion cancelada. Se esperaba que ingrese un valor"})}
+})()
 }
-
-
-
 
 function depositarDinero() {
 
-    let dineroDepositado = prompt ('¿Cuántos dinero desea depositar?', 1000)
-    if (dineroDepositado !== null) { 
-    let ahoraTenes = (saldoCuenta + parseInt(dineroDepositado))
-    
-
-    alert(`Elegiste depositar ${dineroDepositado} 
-            Antes tenias ${saldoCuenta}!
-            Ahora tenes ${ahoraTenes}`);
-
-    saldoCuenta = ahoraTenes ;
-     actualizarSaldoEnPantalla(ahoraTenes);
-    } else {alert ("Operacion cancelada. Se esperaba que ingrese un valor")}
+    (async () =>{	
+    let  { value: dineroDepositado } = await Swal.fire({
+        input: 'text',
+        inputLabel: 'Solo admite numeros',
+        icon: 'question',
+        title: '¿Cuántos dinero desea depositar?',
+        inputPlaceholder: 'Ingrese un monto',
+        showCancelButton: true,
+      });
+      
+      if (dineroDepositado !== NaN && dineroDepositado !== undefined && dineroDepositado !== "") {
+        let ahoraTenes = (saldoCuenta + parseInt(dineroDepositado))
+            Swal.fire({ icon: 'success', text:`Elegiste depositar $ ${dineroDepositado}\n 
+                    Antes tenias $ ${saldoCuenta}\n
+                    Ahora tenes $ ${ahoraTenes}`});
+                    saldoCuenta = ahoraTenes ;
+                    actualizarSaldoEnPantalla(saldoCuenta);
+      } else { Swal.fire({ icon: 'error', text:`Operacion cancelada. Se esperaba que ingrese un valor`})}
+      
+    })();
 }
-
 function pagarServicio() {
-let pagoServicio = prompt (`Ingresa el numero que corresponda con el servicio que quieras pagar:
-    1: Agua $ ${servicioAgua}
-    2: Luz  $ ${servicioLuz}
-    3: Internet  $ ${servicioInternet}
-    4: Telefono  $ ${servicioTelefono}`)
+    (async () =>{	
+        const inputOptions = new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            '#Agua': 'Agua',
+            '#Luz': 'Luz',
+            '#Internet': 'Internet',
+            '#Telefono': 'Telefono'
+          })
+        }, 1000)
+        });
 
+      const { value: pagoServicio } = await Swal.fire({
+        title: 'Seleccione el servicio que desea pagar',
+        input: 'radio',
+        inputOptions: inputOptions,
+        inputValidator: (pagoServicio) => {
+          if (!pagoServicio) {
+            return 'No se detectan selecciones'
+          }
+        }
+      })
+      
     switch (pagoServicio) {
-        case "1":
+        case "#Agua":
             if (servicioAgua <= saldoCuenta){
                 ahoraTenes = (saldoCuenta - parseInt(servicioAgua));             
-                  alert (`El pago del Agua se realizo correctamente
-                  Saldo anterior ${saldoCuenta}
-                  Dinero descontado ${servicioAgua}
-                  Saldo actual ${ahoraTenes}`)
+                Swal.fire ({ icon: 'success', text: `El pago del Agua se realizo correctamente
+                    Saldo anterior ${saldoCuenta}\n 
+                    Dinero descontado ${servicioAgua}\n 
+                    Saldo actual ${ahoraTenes}`})
                   saldoCuenta = ahoraTenes;
                 actualizarSaldoEnPantalla(saldoCuenta);
-                    } else { alert ("No contas con dinero suficiente para realizar el pago")}
+                    } else { Swal.fire ({icon:'error', text:"No contas con dinero suficiente para realizar el pago"})}
                 
                   break;
-        case "2":
+        case "#Luz":
             if (servicioLuz <= saldoCuenta){
                 ahoraTenes = (saldoCuenta - parseInt(servicioLuz));             
-                  alert (`El pago de Luz se realizo correctamente
-                  Saldo anterior ${saldoCuenta}
-                  Dinero descontado ${servicioLuz}
-                  Saldo actual ${ahoraTenes}`)
-                  saldoCuenta = ahoraTenes;
+                  Swal.fire ({ icon: 'success', text: `El pago de Luz se realizo correctamente
+                    Saldo anterior ${saldoCuenta}\n 
+                    Dinero descontado ${servicioLuz}\n 
+                    Saldo actual ${ahoraTenes}`})
+                saldoCuenta = ahoraTenes;
                 actualizarSaldoEnPantalla(saldoCuenta);
-                    } else { alert ("No contas con dinero suficiente para realizar el pago")}
+                    } else { Swal.fire ({icon:'error', text:"No contas con dinero suficiente para realizar el pago"})}
                 
                   break;
-        case "3":
+        case "#Internet":
             if (servicioInternet <= saldoCuenta){
                 ahoraTenes = (saldoCuenta - parseInt(servicioInternet));             
-                  alert (`El pago del Internet se realizo correctamente
-                  Saldo anterior ${saldoCuenta}
-                  Dinero descontado ${servicioInternet}
-                  Saldo actual ${ahoraTenes}`)
+                Swal.fire ({ icon: 'success', text: `El pago de Internet se realizo correctamente
+                Saldo anterior ${saldoCuenta}\n 
+                Dinero descontado ${servicioInternet}\n 
+                Saldo actual ${ahoraTenes}`})
                   saldoCuenta = ahoraTenes;
                 actualizarSaldoEnPantalla(saldoCuenta);
-                    } else { alert ("No contas con dinero suficiente para realizar el pago")}
+                    } else { Swal.fire ({icon:'error', text:"No contas con dinero suficiente para realizar el pago"})}
                 
                   break;
          
-        case "4":
+        case "#Telefono":
             if (servicioTelefono <= saldoCuenta){
                 ahoraTenes = (saldoCuenta - parseInt(servicioTelefono));             
-                  alert (`El pago del Telefono se realizo correctamente
-                  Saldo anterior ${saldoCuenta}
-                  Dinero descontado ${servicioTelefono}
-                  Saldo actual ${ahoraTenes}`)
+                Swal.fire ({ icon: 'success', text: `El pago de Telefono se realizo correctamente
+                Saldo anterior ${saldoCuenta}\n 
+                Dinero descontado ${servicioTelefono}\n 
+                Saldo actual ${ahoraTenes}`})
                   saldoCuenta = ahoraTenes;
                 actualizarSaldoEnPantalla(saldoCuenta);
-                    } else { alert ("No contas con dinero suficiente para realizar el pago")}
-                
+                    } else { Swal.fire ({icon:'error', text:"No contas con dinero suficiente para realizar el pago"})}
                   break;
         default:
-          alert ("El valor ingresado no es valido para esta operacion.")
+            Swal.fire ({icon:'error', text:"Tu dinero en cuenta no es suficiente para realizar el pago"})
           break;
       }
+    })();
 }
 
 function transferirDinero() {
-MontoTransferido = prompt (`Ingrese la cantidad de dinero que desea transferir`)
+
+    (async () =>{	
+        let  { value: MontoTransferido } = await Swal.fire({
+        input: 'text',
+        inputLabel: 'Solo admite números',
+        icon:'question',
+        title: 'Ingrese la cantidad de dinero que desea transferir',
+        inputPlaceholder: 'Ingrese un monto',
+        showCancelButton: true,
+    });
 if (MontoTransferido !== null) { 
     if (MontoTransferido <= saldoCuenta){
-    cuentaAmiga = prompt (`Ingrese el numero de la Cuenta Amiga a la que va a transferir`)
+        let  { value: cuentaAmiga } = await Swal.fire({
+            input: 'text',
+            inputLabel: 'Tus cuentas amigas son:\n Nro: 1234567 \n Nro: 7654321',
+            icon:'question',
+            title: 'Ingrese el número de Cuenta Amiga',
+            inputPlaceholder: 'Ingrese un monto',
+            showCancelButton: true,
+        });
         if (cuentaAmiga == cuentaAmiga1 || cuentaAmiga == cuentaAmiga2) {
             ahoraTenes = ( saldoCuenta - parseInt(MontoTransferido));
-            alert (`transferiste $ ${MontoTransferido} a tu Cuenta Amiga Nro ${cuentaAmiga}`);
+            Swal.fire({icon:'success', text:`Transferiste $ ${MontoTransferido} a tu Cuenta Amiga Nro: ${cuentaAmiga}`});
             saldoCuenta = ahoraTenes ;
             actualizarSaldoEnPantalla(saldoCuenta);
                 
-        } else {alert ("Esta no es una cuenta amiga, tene cuidado!")}
+        } else {Swal.fire ({icon:'error', text:"No has ingresado una Cuenta Amiga\n Tene cuidado!"})}
     
-    } else { alert ("El saldo en cuenta no es suficiente para realizar esta operación")}
-} else { alert ("El valor ingresado no es valido para esta operacion.")}
- 
+    } else { Swal.fire ({icon:'error', text:"El saldo en cuenta no es suficiente para realizar esta operación"})}
+} else { Swal.fire ({icon: 'error', text:"El valor ingresado no es valido para esta operacion."})}
+ })();
+
 }
 
 function iniciarSesion() {
-
-    verificarUsuario = prompt ("Ingrese su codigo de seguridad para empezar a operar. (Es 6699, pero shhh)")
-    if (codigoSeguridad == verificarUsuario) {
-        alert ("Bienvenido Dr. Fate! ya puede operar.");
-        } else {
+(async () =>{
+    const { value: verificarUsuario } = await Swal.fire({
+      // grow: 'fullscreen',
+        icon: 'question',
+            imageUrl: 'img/init.gif',
+            imageWidth: 200,
+            imageHeight: 200,
+            imageAlt: 'Custom image',
+        title: 'Ingrese su codigo de seguridad para comenzar a operar.',
+        input: 'password',
+        inputLabel: '(Es 6699, pero shhh)',
+        inputPlaceholder: 'Codigo de seguridad',
+        inputAttributes: {
+          maxlength: 10,
+          autocapitalize: 'off',
+          autocorrect: 'off'
+        }
+      });
+      
+      if (codigoSeguridad == verificarUsuario) {
+        Swal.fire({ icon: 'success', text:`Bienvenido ${nombreUsuario}\n ya puede comenzar a operar`})
+      } else {
+        nombreUsuario = "Usuario invalido";
         saldoCuenta = 0 ;
-    }
+        cargarNombreEnPantalla(nombreUsuario)
+        actualizarSaldoEnPantalla(saldoCuenta);
+        Swal.fire({icon: 'error',text: `El codigo de seguridad es incorrecto. No podras seguir operando`})
+        
+      }
+})(1000)
+
+  
 }
 
 //Funciones que actualizan el valor de las variables en el HTML
+
 function cargarNombreEnPantalla() {
     document.getElementById("nombre").innerHTML = "Bienvenido/a " + nombreUsuario;
 }
