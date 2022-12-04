@@ -153,9 +153,16 @@ body {
     text-overflow: ellipsis;
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 420px) {
+
+    .swal2-icon {
+        display: none;
+    }
+
     .white-container {
         flex-direction: column-reverse;
+        width: 90%;
+        padding: 20px;
     }
 
     .green-container {
@@ -181,4 +188,5 @@ body {
     .logo {
         margin-bottom: 10px;
     }
-}
+
+    }

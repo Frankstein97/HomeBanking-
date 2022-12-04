@@ -1,5 +1,5 @@
 
-//Declaración de variables
+//Primero siempre declarar variables
 let codigoSeguridad = 6699 
 
 let nombreUsuario = "Dr. Frog!" ;
@@ -35,7 +35,7 @@ window.onload = function() {
 }
 
 
-//Funciones que tenes que completar
+//Funciones que cambian el limite de extracion
 function cambiarLimiteDeExtraccion() {
 
     (async () =>{	
