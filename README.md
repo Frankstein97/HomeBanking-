@@ -1,6 +1,6 @@
 ## Gracias por visitar mi codigo!!! <img src="https://media.giphy.com/media/hvRJCLFzcasrR4ia7z/giphy.gif" width="25px"> :black_heart:
 
-### Esta app fue creada con ayuda de la web y con para practicar lo que aprendi hasta ahora! 
+### Esta app fue creada con ayuda de la web y para practicar lo que aprendi hasta ahora! 
 
 ## Programming Skills
 
